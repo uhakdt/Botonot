@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "Botonot V1.1",
+    "short_name": "botonot",
+    "version": "1.1",
+    "description": "Version 1.1 of the Botonot Chrome Extension",
+    "author": "uhakdt",
+    "content_scripts": [
+        {
+        "matches": ["<all_urls>"],
+        "js":["jquery-3.5.1.js", "content.js"],
+        "run_at": "document_end"
+        }
+    ],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "permissions": [
+        "https://uhakdt.pythonanywhere.com/"
+    ]
+}
