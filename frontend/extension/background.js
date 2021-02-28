@@ -3,11 +3,10 @@ console.log("background.js is runnning finneeee....");
 
 //---------- API ----------//
 //----- API REQUEST -----//
-const userAction = async (req) => {
+const userAction = async () => {
   //Send a Http GET request to our API to retrieve the data
   let request = new XMLHttpRequest();
-  request.open("GET", "https://uhakdt.pythonanywhere.com/text/jidodwa djoiwpad jdpowa dajwdwpoa");
-  console.log(req.review);
+  request.open("GET", "https://uhakdt.pythonanywhere.com/multi/1123123");
   request.send();
   request.onload = () => {
     console.log(request);
@@ -26,7 +25,7 @@ const userAction = async (req) => {
 //---------- CONTENT ----------//
 //----- FROM CONTENT -----//
 chrome.runtime.onMessage.addListener(function (req, send, sendRes) {
-  if (req.msg == "startFunc") userAction(req);
+  if (req.msg == "startFunc") userAction();
 });
 
 //----- TO CONTENT -----//

@@ -22,26 +22,32 @@ function main() {
   var urls = document.getElementsByTagName("h3");
 
   for (var i = 0; i < urls.length; i++) {
-    $(urls[i]).mouseenter((urls) => {
+    $(urls[i]).mouseenter(function () {
       showTooltip();
     });
-    $(urls[i]).mouseleave(() => {
+    $(urls[i]).mouseleave(function () {
       hideTooltip();
     });
   }
 }
 
 //----- SHOW TOOLTIP -----//
-function showTooltip(urls) {
-  // ----- GET TEXT -----//, review: $(e.target).clone().children().remove().end().text().toString()
-  if (urls) {
-    
-  }
+var showTooltip = function (e) {
+  // ----- GET TEXT -----//
+  window.onmouseover = function (e) {
+    var test = e.target.innerHTML;
+  };
+
   //----- RUN API -----//
-  chrome.runtime.sendMessage({ msg: "startFunc", review: "$(e.target).clone().children().remove().end().text().toString()" });
+  chrome.runtime.sendMessage({ msg: "startFunc" });
 
   //----- API RESPONSE -----//
   chrome.runtime.onMessage.addListener((message) => {
+    //----- MOUSE POSITION -----//
+    $(document).mousemove(function (e) {
+      window.x = e.pageX;
+      window.y = e.pageY;
+    });
 
     //----- NUM ONLY -----//
     var numberPattern = /\d+/g;
@@ -49,8 +55,8 @@ function showTooltip(urls) {
 
     //----- ADD TO TOOLTIP -----//
     botTip.innerHTML = `<div>${apiResult}</div>`;
-    botTip.style.left = window.left;
-    botTip.style.top = window.top;
+    botTip.style.left = '50px';
+    botTip.style.top = '50px';
     botTip.style.display = "block";
 
     return true;
