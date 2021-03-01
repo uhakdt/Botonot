@@ -19,9 +19,10 @@ document.body.appendChild(botTip);
 
 //----- MAIN FUNCTION -----//
 function main() {
-  var urls = document.getElementsByTagName("h3");
+  var urls = document.getElementsByTagName("div");
 
   for (var i = 0; i < urls.length; i++) {
+    console.log(urls[i])
     $(urls[i]).mouseenter(function () {
       showTooltip();
     });
@@ -39,7 +40,8 @@ var showTooltip = function (e) {
   };
 
   //----- RUN API -----//
-  chrome.runtime.sendMessage({ msg: "startFunc" });
+  var tweetContent = document.getElementsByTagName('article')[2].getElementsByTagName('span')[5].innerText;
+  chrome.runtime.sendMessage({ msg: "startFunc", content : tweetContent});
 
   //----- API RESPONSE -----//
   chrome.runtime.onMessage.addListener((message) => {
