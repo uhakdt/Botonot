@@ -48,13 +48,12 @@ var showTooltip = function (e) {
       window.x = e.pageX;
       window.y = e.pageY;
     });
-
-    //----- NUM ONLY -----//
-    var numberPattern = /\d+/g;
-    var apiResult = message.match(numberPattern).join("");
+    // var messageString = JSON.stringify(message);
+    // var messageTemp = messageString.match(/^.{14}(.*)/);
+    // var result = messageTemp.slice(0, -1);
 
     //----- ADD TO TOOLTIP -----//
-    botTip.innerHTML = `<div>${apiResult}</div>`;
+    botTip.innerHTML = `<div>${message}</div>`;
     botTip.style.left = '50px';
     botTip.style.top = '50px';
     botTip.style.display = "block";

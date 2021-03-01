@@ -6,14 +6,18 @@ console.log("background.js is runnning finneeee....");
 const userAction = async () => {
   //Send a Http GET request to our API to retrieve the data
   let request = new XMLHttpRequest();
-  request.open("GET", "https://uhakdt.pythonanywhere.com/multi/1123123");
+  request.open("GET", "https://uhakdt.pythonanywhere.com/text/jdiowad");
   request.send();
   request.onload = () => {
     console.log(request);
     if (request.status === 200) {
-      //----- TO CONTENT -----//
-      sendMessageToCurrentTab(request.response);
-      console.log(JSON.parse(request.response));
+      //----- TO CONTENT.JS -----//
+      //Removing uncessary text from request
+      var messageString = request.responseText;
+      var messageTemp = messageString.match(/^.{12}(.*)/);
+      var result = messageTemp[1].slice(0, -2);
+      //Sending request to Content.js
+      sendMessageToCurrentTab(result);
       console.log("api request sent and received...");
     } else {
       console.log(`error ${request.status} ${request.statusText}`);
@@ -22,7 +26,7 @@ const userAction = async () => {
 };
 
 
-//---------- CONTENT ----------//
+//---------- CONTENT.JS ----------//
 //----- FROM CONTENT -----//
 chrome.runtime.onMessage.addListener(function (req, send, sendRes) {
   if (req.msg == "startFunc") userAction();
