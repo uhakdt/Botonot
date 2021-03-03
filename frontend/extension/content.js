@@ -18,30 +18,25 @@ botTip.style.display = "none";
 document.body.appendChild(botTip);
 
 //----- MAIN FUNCTION -----//
-function main() {
-  var urls = document.getElementsByTagName("div");
+async function main() {
+  // var urls = document.getElementsByTagName("a");
 
-  for (var i = 0; i < urls.length; i++) {
-    console.log(urls[i])
-    $(urls[i]).mouseenter(function () {
-      showTooltip();
-    });
-    $(urls[i]).mouseleave(function () {
-      hideTooltip();
-    });
+  jQuery(document).ready(checkContainer);
+
+  async function checkContainer() {
+    await new Promise(r => setTimeout(r, 2000));
+    if($('#layers').is(':visible')){ 
+      checkToRemoveTweet();
+    } else {
+      setTimeout(checkContainer, 2000); //wait 50 ms, then try again
+    }
   }
+
+  jQuery(document).scroll(checkContainer);
 }
 
 //----- SHOW TOOLTIP -----//
 var showTooltip = function (e) {
-  // ----- GET TEXT -----//
-  window.onmouseover = function (e) {
-    var test = e.target.innerHTML;
-  };
-
-  //----- RUN API -----//
-  var tweetContent = document.getElementsByTagName('article')[2].getElementsByTagName('span')[5].innerText;
-  chrome.runtime.sendMessage({ msg: "startFunc", content : tweetContent});
 
   //----- API RESPONSE -----//
   chrome.runtime.onMessage.addListener((message) => {
@@ -68,5 +63,28 @@ var showTooltip = function (e) {
 var hideTooltip = function (e) {
   botTip.style.display = "none";
 };
+
+//----- REMOVE TWEET -----//
+var checkToRemoveTweet = function (e) {
+  //----- TO API-----//
+  var tweets = document.getElementsByTagName('article');
+
+  for (let i = 0; i < tweets.length; i++) {
+    const $tweet = tweets[i];
+    if ($('span', $tweet).length) {
+      const tweetContent = $tweet.getElementsByTagName('span')[5].innerText;
+      if (tweetContent.includes("I don't know but I was wondering if there is going to be an equivalent of a WWII Jeep")) {
+        chrome.runtime.sendMessage({ msg: "startFunc", content : tweetContent});
+      }
+    }
+  }
+
+  //----- FROM API -----//
+  chrome.runtime.onMessage.addListener((message) => {
+    $('span:contains(' + message + ')').closest('article').remove();
+    return true;
+  });
+};
+
 
 main();

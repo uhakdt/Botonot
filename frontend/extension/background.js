@@ -7,6 +7,7 @@ const userAction = async (req) => {
   //Send a Http GET request to our API to retrieve the data
   let request = new XMLHttpRequest();
   var sent = req;
+  console.log(req)
   request.open("GET", "https://uhakdt.pythonanywhere.com/text/" + sent);
   request.send();
   request.onload = () => {
